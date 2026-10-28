@@ -1,0 +1,26 @@
+# tells git what to ignore exactly from the given diretory
+
+# Python cache
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Virtual environment - kabhi upload nahi karna
+.venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Editor / OS
+.vscode/
+.DS_Store
+
+# Secrets
+.env
+
+# Data: zip upload nahi karenge, sirf CSV files
+data/raw/*.zip
+data/processed/*
+
+# Trained models (baad me decide karenge)
+models/*.joblib

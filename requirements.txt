@@ -1,0 +1,20 @@
+numpy
+pandas
+scikit-learn
+scipy
+matplotlib
+seaborn
+joblib
+streamlit   #it is for front end 
+pytest
+jupyter
+
+# Har package kis kaam aayega:
+
+# numpy, pandas: data ko table ki tarah padhna aur calculate karna
+# scikit-learn: saare ML models
+# matplotlib, seaborn: graphs banana
+# joblib: trained model ko file me save karna
+# streamlit: dashboard (frontend)
+# pytest: code test karna
+# jupyter: notebooks
