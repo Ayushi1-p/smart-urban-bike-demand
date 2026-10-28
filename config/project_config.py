@@ -28,7 +28,7 @@ DATASET_URL = "https://archive.ics.uci.edu/dataset/275/bike+sharing+dataset"
 DATASET_DOWNLOAD_URL = "https://archive.ics.uci.edu/static/public/275/bike+sharing+dataset.zip"
 DATASET_DOI = "10.24432/C5W894"
 DATASET_LICENSE = "CC BY 4.0"
-EXPECTED_HOUR_ROWS = 17389  # UCI website par likha number; asli file se verify karenge
+EXPECTED_HOUR_ROWS = 17379  # UCI website par likha number; asli file se verify karenge
 
 # ---------------- Columns ----------------
 HOUR_COLUMNS = [
