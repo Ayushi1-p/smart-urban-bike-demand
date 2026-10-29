@@ -54,12 +54,14 @@ def build_preprocessor(kind: str = "linear", poly_degree: int = 2) -> ColumnTran
     kind = "poly"    : like "linear" but numerics expanded with PolynomialFeatures
                        (temp, hum, windspeed, temp^2, temp*hum, ...)
     kind = "tree"    : raw values, no scaling, no one-hot    (Decision Tree, Random Forest)
+    kind = "linear_dense": same as "linear" but returns a normal (dense) array,
+                       needed by Gaussian Naive Bayes
     """
-    one_hot = OneHotEncoder(handle_unknown="ignore")
+    one_hot = OneHotEncoder(handle_unknown="ignore", sparse_output=(kind != "linear_dense"))
 
     if kind == "simple":
         return ColumnTransformer([("num", StandardScaler(), ["temp"])])
-    if kind == "linear":
+    if kind in ("linear", "linear_dense"):
         return ColumnTransformer([
             ("num", StandardScaler(), NUMERIC_FEATURES),
             ("cat", one_hot, CATEGORICAL_FEATURES),

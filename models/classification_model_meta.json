@@ -1,0 +1,55 @@
+{
+  "task": "classification",
+  "classes": [
+    "Low",
+    "Medium",
+    "High"
+  ],
+  "thresholds": {
+    "low_upper": 64.0,
+    "medium_upper": 198.0
+  },
+  "threshold_rule": "tertiles (33.3% / 66.7% quantiles) of cnt in the training period 2011-01-01 to 2012-06-30",
+  "labeling": "Low: cnt < low_upper; Medium: low_upper <= cnt < medium_upper; High: cnt >= medium_upper",
+  "selected_model": "Logistic Regression",
+  "best_params": {
+    "C": 10
+  },
+  "selection_rule": "highest validation macro F1 (Jul-Sep 2012); tuned with 5-fold TimeSeriesSplit on train",
+  "validation_metrics": {
+    "accuracy": 0.9207,
+    "precision_macro": 0.8968,
+    "recall_macro": 0.8881,
+    "f1_macro": 0.8922,
+    "roc_auc_ovr_macro": 0.98
+  },
+  "test_metrics": {
+    "accuracy": 0.8386,
+    "precision_macro": 0.8374,
+    "recall_macro": 0.8041,
+    "f1_macro": 0.816,
+    "roc_auc_ovr_macro": 0.9461
+  },
+  "final_fit": "train + validation (2011-01-01 to 2012-09-30)",
+  "features": [
+    "temp",
+    "hum",
+    "windspeed",
+    "season",
+    "mnth",
+    "hr",
+    "weekday",
+    "weathersit",
+    "hr_workingday",
+    "yr",
+    "holiday",
+    "workingday"
+  ],
+  "random_seed": 42,
+  "versions": {
+    "python": "3.13.15",
+    "scikit-learn": "1.9.1",
+    "pandas": "3.1.0",
+    "numpy": "2.5.4"
+  }
+}

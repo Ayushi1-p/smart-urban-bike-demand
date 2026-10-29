@@ -1,0 +1,4 @@
+demand_level,train,validation,test
+Low,4334,498,636
+Medium,4319,383,537
+High,4350,1327,995
