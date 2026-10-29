@@ -1,0 +1,44 @@
+{
+  "task": "regression",
+  "target": "cnt",
+  "selected_model": "Lasso",
+  "target_transform": "log(cnt+1)",
+  "best_params": {
+    "alpha": 0.001
+  },
+  "selection_rule": "lowest validation RMSE (Jul-Sep 2012); tuned with 5-fold TimeSeriesSplit on train",
+  "validation_metrics": {
+    "MAE": 47.55,
+    "MSE": 5541.3,
+    "RMSE": 74.44,
+    "R2": 0.8962
+  },
+  "test_metrics": {
+    "MAE": 42.49,
+    "MSE": 4585.6,
+    "RMSE": 67.72,
+    "R2": 0.8872
+  },
+  "final_fit": "train + validation (2011-01-01 to 2012-09-30)",
+  "features": [
+    "temp",
+    "hum",
+    "windspeed",
+    "season",
+    "mnth",
+    "hr",
+    "weekday",
+    "weathersit",
+    "hr_workingday",
+    "yr",
+    "holiday",
+    "workingday"
+  ],
+  "random_seed": 42,
+  "versions": {
+    "python": "3.13.15",
+    "scikit-learn": "1.9.1",
+    "pandas": "3.1.0",
+    "numpy": "2.5.4"
+  }
+}
