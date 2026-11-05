@@ -2,13 +2,12 @@
 
 | | |
 |---|---|
-| **Student name** | [Your full name] |
-| **Registration / Roll No.** | [Registration number] |
+| **Student name** | [Ayushi Pundir] |
+| **Registration / Roll No.** | [12629808] |
 | **Programme** | M.Tech Data Science & Analytics |
 | **Course code** | CSE570 – Python, Data Science and Machine Learning |
-| **Section** | [Section] |
-| **Faculty / Guide** | [Faculty name] |
-| **Submission date** | [DD Month 2026] |
+| **Section** | [K3P26DS] |
+| **Submission date** | [12 Nov 2026] |
 
 <div style="page-break-after: always;"></div>
 
@@ -472,7 +471,7 @@ forecasting.
 
 | Item | Value |
 |---|---|
-| GitHub repository | [https://github.com/USERNAME/smart-urban-bike-demand] |
+| GitHub repository | [https://github.com/Ayushi1-p/smart-urban-bike-demand] |
 | LinkedIn post | [URL of your LinkedIn post] |
 | Number of commits / pull requests | [from GitHub, on the submission date] |
 | Stars / LinkedIn likes / comments | [values on the submission date] |
