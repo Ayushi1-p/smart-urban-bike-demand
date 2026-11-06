@@ -1,10 +1,3 @@
-"""
-data_loader.py
-Kaam: hour.csv ko padhna aur CHECK karna ki file asli UCI format me hai.
-Agar file galat ho, to code yahin ruk jaayega - baad me galat results nahi aayenge.
-
-Run karne ka tarika (project folder se):  python -m src.data_loader
-"""
 import pandas as pd
 
 from config import project_config as cfg

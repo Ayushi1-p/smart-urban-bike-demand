@@ -1,7 +1,6 @@
 """
 app.py - Streamlit dashboard (the "frontend").
 
-Run from the project folder:   streamlit run app.py
 
 The app does NOT train models. It reads:
     data/raw/hour.csv            -> dataset pages and interactive charts
