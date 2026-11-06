@@ -2,12 +2,12 @@
 
 | | |
 |---|---|
-| **Student name** | [Ayushi Pundir] |
-| **Registration / Roll No.** | [12629808] |
+| **Student name** | Ayushi Pundir |
+| **Registration No.** | 12629808 |
 | **Programme** | M.Tech Data Science & Analytics |
-| **Course code** | CSE570 – Python, Data Science and Machine Learning |
-| **Section** | [K3P26DS] |
-| **Submission date** | [12 Nov 2026] |
+| **Course code** | CSE570 – Machine Learning with python |
+| **Section** | K3P26DS |
+| **Submission date** | 12 Nov 2026 |
 
 <div style="page-break-after: always;"></div>
 
@@ -193,7 +193,7 @@ training period. Every fold trains on earlier hours and validates on later hours
 
 ## 6. Exploratory Data Analysis
 
-(Figures 01–08, `outputs/figures/`; full notes in `docs/eda_findings.md`.)
+(Figures 01–08 in `outputs/figures/`, produced by `src/eda.py`.)
 
 ![Figure 1 – Distribution of hourly rentals](../outputs/figures/01_target_distribution.png)
 
@@ -482,7 +482,15 @@ forecasting.
 - [Insert screenshot: contribution graph on your GitHub profile]
 - [Insert screenshot: LinkedIn post with likes/comments, showing the date]
 
-**Development timeline** (from `docs/development_log.md`): environment setup (25 Oct
-2026); data loader, configuration and data dictionary (28 Oct); EDA, regression,
-classification and dashboard (29 Oct); README, notebooks, report and documentation
-(30 Oct onward). Commit timestamps in the repository are the authoritative record.
+**Development timeline** (from the Git commit history):
+
+| Date | Work completed | Commits |
+|---|---|---|
+| 25 Oct 2026 | Environment setup: Python, VS Code, Git, virtual environment, folders | – |
+| 28 Oct 2026 | Project structure, configuration, data loader with validation; verified row count (17,379) | 2 |
+| 29 Oct 2026 | EDA; leakage-safe preprocessing and 7 regression models; 7 classification models; Streamlit dashboard and README | 4 |
+| 30 Oct 2026 | Four notebooks (Units I–IV) run on real data; methodology flowchart; project report; LinkedIn draft | 9 |
+| 5 Nov 2026 | Report title page; documentation | 2 |
+| 6 Nov 2026 | Documentation consolidated into README and report | see repository |
+
+Commit timestamps in the repository are the authoritative record.
