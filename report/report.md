@@ -472,15 +472,10 @@ forecasting.
 | Item | Value |
 |---|---|
 | GitHub repository | [https://github.com/Ayushi1-p/smart-urban-bike-demand] |
-| LinkedIn post | [URL of your LinkedIn post] |
+| LinkedIn post | https://lnkd.in/p/g7SqZ_Xw |
 | Number of commits / pull requests | [from GitHub, on the submission date] |
 | Stars / LinkedIn likes / comments | [values on the submission date] |
 
-**Screenshots (dated):**
-- [Insert screenshot: GitHub repository home page, showing the date]
-- [Insert screenshot: commit history (`Commits` page)]
-- [Insert screenshot: contribution graph on your GitHub profile]
-- [Insert screenshot: LinkedIn post with likes/comments, showing the date]
 
 **Development timeline** (from the Git commit history):
 
