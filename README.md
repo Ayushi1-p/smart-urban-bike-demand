@@ -5,6 +5,7 @@ M.Tech Data Science & Analytics · CSE570 · Ayushi Pundir
 A machine-learning project that predicts **how many bikes will be rented in an hour**
 from the time, season and weather, and shows the predictions in a Streamlit dashboard.
 
+**🌐 Live demo:** https://smart-urban-bike-demand-ayushi.streamlit.app/
 ![Dashboard overview](docs/screenshots/overview.png)
 
 ## 1. Problem statement
@@ -124,11 +125,11 @@ docs/                  flowchart and dashboard screenshots
 | 25 Oct 2026 | Installed Python, VS Code and Git; created the virtual environment and folders |
 | 28 Oct 2026 | Downloaded the UCI data; wrote the config and data loader; verified 17,379 rows; first push to GitHub |
 | 29 Oct 2026 | EDA graphs; preprocessing and 7 regression models; 7 classification models; dashboard; README |
-| 30 Oct 2026 | Four notebooks run on real data; methodology flowchart; project report |
+| 30 Oct 2026 | methodology flowchart; project report |
 | 5 Nov 2026 | Report title page |
 | 6 Nov 2026 | Simplified the documentation into this README and the report |
+| 11 Nov 2026 | Pinned library versions, deployed the dashboard on Streamlit Community Cloud, added submission evidence |
 
-The exact record is the commit history on GitHub.
 
 ## 8. Limitations and future work
 - Data is from one city (Washington D.C.) and is from 2011–2012, so the model does not

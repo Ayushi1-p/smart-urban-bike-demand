@@ -12,26 +12,15 @@
 <div style="page-break-after: always;"></div>
 
 ## 2. Abstract
+Bike-sharing services have become a useful part of urban transportation. However, managing the number of available bicycles can be challenging because the demand changes throughout the day depending on factors such as weather, season, and working days. If too few bicycles are available, users may not find one when they need it. On the other hand, keeping too many bicycles at a station can also create management problems.
 
-Bike-sharing operators need to know how many bicycles will be rented under given
-conditions so that stations are neither empty nor overstocked. This project builds an
-end-to-end machine-learning system that estimates hourly rental demand from weather,
-seasonal and calendar conditions. It uses the authentic UCI Bike Sharing dataset, which
-contains 17,379 hourly observations from Capital Bikeshare, Washington D.C. (2011–2012).
-Two tasks are solved: regression of the hourly rental count and three-class
-classification of demand (Low / Medium / High), with class thresholds derived only from
-the training period. The data were validated, explored, and transformed with leakage-safe
-scikit-learn pipelines. They were split chronologically into training (Jan 2011 – Jun
-2012), validation (Jul – Sep 2012) and test (Oct – Dec 2012) periods. Seven regression
-approaches (baseline, simple, multiple and polynomial linear regression, Ridge, Lasso,
-Elastic Net) and seven classifiers (baseline, Logistic Regression, KNN, Decision Tree,
-Random Forest, SVM, Naive Bayes) were tuned with time-series cross-validation and selected
-on the validation period. On the held-out test period, the selected Lasso model on a
-log-transformed target achieved MAE 42.5 and RMSE 67.7 bikes per hour (R² 0.887),
-reducing MAE by 73% compared with the mean baseline. The selected Logistic Regression
-classifier achieved macro F1 0.816, accuracy 0.839 and one-vs-rest ROC-AUC 0.946. The
-models are served through an interactive Streamlit dashboard. The system is a
-decision-support prototype based on historical data from one city.
+In this project, I developed a machine learning system to predict the hourly demand for rental bicycles. For this, I used the UCI Bike Sharing dataset, which contains 17,379 hourly records from the Capital Bikeshare system in Washington D.C., covering the years 2011 and 2012.
+
+The project focuses on two machine learning tasks. The first is regression, where the model predicts the number of bicycles that may be rented in a particular hour. The second is classification, where the same demand is divided into three categories: Low, Medium, and High. I experimented with different regression and classification algorithms and compared their performance using a time-based training, validation, and testing approach.
+
+Among the regression models, Lasso Regression with a log-transformed target gave an MAE of 42.49 and an RMSE of 67.72 on the test data, with an R² score of 0.8872. For classification, Logistic Regression achieved a macro F1-score of 0.8160 and an accuracy of 0.8386. Both selected models performed better than their baseline models.
+
+Finally, I connected the trained models to an interactive Streamlit dashboard. It allows users to enter different weather and time-related conditions and view the predicted bike demand. The project demonstrates how machine learning can help understand historical bike usage patterns and support better planning of bike-sharing services.
 
 **Keywords:** demand prediction, bike sharing, regression, classification, regularisation,
 time-series cross-validation, Streamlit
@@ -41,50 +30,52 @@ time-series cross-validation, Streamlit
 ## 3. Introduction and Problem Statement
 
 ### 3.1 Background
-Public bike-sharing systems let users rent a bicycle at one station and return it at
-another. Usage depends strongly on time of day (commuting), day type (working day vs
-weekend), season and weather. Operators must decide how many bicycles to keep in service
-and when to redistribute or maintain them. Accurate demand estimates support these
-decisions.
+Bike-sharing is a convenient transportation option in many cities. People can rent a bicycle from one location and return it at another, which makes short-distance travel easier. However, the number of people using these services is not the same throughout the day.
+
+For example, more people may rent bicycles during morning and evening office hours, while the demand may be different during weekends or holidays. Weather also plays an important role. People may prefer cycling when the weather is pleasant, but demand can decrease during heavy rain or uncomfortable conditions.
+
+Because of these changes, bike-sharing operators need to plan how many bicycles should be available and when they should be moved between stations. This project focuses on using historical data and machine learning to estimate hourly bike demand. The aim is to understand the patterns behind bicycle rentals and build models that can make useful predictions.
 
 ### 3.2 Problem definition
-Given the hour, date-related attributes and weather conditions, estimate:
-- **Task A (regression):** the total number of bikes rented in that hour (`cnt`).
-- **Task B (classification):** whether the hour is a **Low**, **Medium** or **High**
-  demand hour.
+The main problem addressed in this project is to estimate bicycle rental demand using information such as the hour, date, season, and weather conditions.
 
+This problem is divided into two tasks:
+
+- **Task A – Regression:** Predict the total number of bicycles rented during a particular hour. The target variable for this task is `cnt`.
+- **Task B – Classification:** Identify whether the demand during a particular hour is Low, Medium, or High.
+
+By solving both tasks, the project provides two different ways to understand and estimate bike-sharing demand.
 ### 3.3 Objectives
-1. Obtain and validate an authentic public dataset and document it.
-2. Explore the data and engineer features without target leakage.
-3. Implement and compare the regression and classification algorithms in the CSE570
-   syllabus against baseline models, using a time-aware evaluation.
-4. Select final models on validation data and report their performance once on a
-   held-out test period.
-5. Provide an interactive dashboard that applies the saved models to user-entered
-   conditions.
+The main objectives of this project are:
 
-**Success criteria:** the selected models must beat the Dummy baselines on the test
-period (lower MAE/RMSE; higher macro F1); no leakage, verified by automated tests; a
-working prediction interface.
+1. To collect and understand a real-world bike-sharing dataset from the UCI Machine Learning Repository.
+2. To explore the data and identify how time, weather, and calendar conditions affect bicycle rentals.
+3. To build and compare different regression and classification models.
+4. To evaluate the models using a chronological data split so that future records are not used while training on past records.
+5. To develop an interactive dashboard where users can enter conditions and view the predicted bike demand.
+
+**Success Criteria:** The final models should perform better than the baseline models on unseen test data. The project should also avoid data leakage and provide a working dashboard for predictions.
 
 ### 3.4 Scope
-In scope: hourly, system-wide demand for the historical Washington D.C. system;
-user-supplied hypothetical conditions. Out of scope: live data feeds, station-level
-prediction, weather forecasting, and claims about cost or emission reductions (not
-measured).
+This project focuses on predicting hourly bike rental demand for the Capital Bikeshare system in Washington D.C. using historical data from 2011 and 2012. It includes data analysis, preprocessing, feature engineering, model training, evaluation, and dashboard development.
+
+The project also allows users to enter hypothetical weather and time-related conditions through the dashboard. However, it does not use live bike-sharing data, predict demand for individual stations, or forecast future weather. It also does not measure actual reductions in operating costs or carbon emissions.
 
 ### 3.5 Real-world applications
-Fleet sizing, timing of redistribution and maintenance, staff planning, and analysis of
-how weather and calendar effects drive urban mobility demand.
+The predictions from this project can be useful in several ways. Bike-sharing operators can use demand estimates to plan the number of bicycles required during busy hours. They can also use the information to decide when bicycles may need to be moved between locations.
+
+The analysis can help with staff planning, maintenance scheduling, and understanding how weather and calendar conditions influence bicycle usage. Although this project is based on historical data, it provides an example of how machine learning can support planning decisions in urban transportation.
 
 ## 4. Dataset Description
 
 ### 4.1 Source and citation
-- UCI Machine Learning Repository, *Bike Sharing* dataset (ID 275),
-  https://archive.ics.uci.edu/dataset/275/bike+sharing+dataset, DOI 10.24432/C5W894,
-  licence CC BY 4.0. Downloaded from the official download link by the student.
-- Original data: Capital Bikeshare trip history (Washington D.C.), aggregated hourly and
-  joined with weather and holiday information by the dataset author [1, 2].
+For this project, I selected the Bike Sharing dataset available on the UCI Machine Learning Repository (Dataset ID 275). The dataset can be accessed through the official UCI website:
+
+https://archive.ics.uci.edu/dataset/275/bike+sharing+dataset
+
+The dataset was originally created using Capital Bikeshare rental information from Washington D.C. It contains hourly bike rental records along with weather, seasonal, and holiday-related information. These additional details make it suitable for studying the factors that influence bicycle demand [1, 2].
+
+I downloaded the dataset from the official source and used the `hour.csv` file for the experiments in this project.
 
 ### 4.2 Size and verified data quality (`hour.csv`)
 | Property | Value |
@@ -115,61 +106,66 @@ how weather and calendar effects drive urban mobility demand.
 | cnt | Total rentals in the hour | casual + registered | **regression target** |
 | instant, dteday | Row index, date | – | not used as features |
 
-Engineered: `hr_workingday` (hour × day type, e.g. "W17"), `demand_level` (classification
-target), `datetime` (for sorting/splitting only).
+Apart from the original columns, I also created a few additional features during preprocessing. The `hr_workingday` feature combines the hour of the day with the working-day information. This helps the models understand that demand at the same hour can be different on a working day and a weekend.
 
-**Season coding check:** the `Readme.txt` in the zip lists 1 = spring, while the UCI web
-page lists 1 = winter. In the data, season 1 contains months 12, 1, 2, 3 and has the
-lowest demand. This confirms **1 = winter** (astronomical seasons).
+The `demand_level` column was created for the classification task, while `datetime` was used to arrange the records in chronological order and divide the dataset into training, validation, and test periods.
 
+I also checked the season information carefully because the season coding mentioned in the dataset documentation was not consistent across the files. After checking the months present in the data, I used the interpretation where season 1 represents winter.
 ### 4.4 Target distributions
-- `cnt`: min 1, median 142, mean 189.46, max 977, skewness 1.28 (right-skewed).
-- Demand levels (thresholds from training data, Section 5.7): training 33.3 / 33.2 /
-  33.5% (Low/Medium/High); validation 22.6 / 17.3 / 60.1%; test 29.3 / 24.8 / 45.9%.
+The target variable `cnt` represents the total number of bicycles rented in an hour. Its values range from 1 to 977, with a median of 142 and a mean of approximately 189.46. The mean is higher than the median, which indicates that the distribution is right-skewed. In simple terms, most hours have comparatively lower rental counts, while a smaller number of busy hours have much higher demand.
+
+For classification, the rental counts were divided into three demand categories: Low, Medium, and High. The thresholds were calculated using only the training data. As a result, the proportion of these categories is not exactly the same in the training, validation, and test periods.
 
 ### 4.5 Limitations of the dataset
-Historical (2011–2012) and from a single city; system-wide counts only (no stations);
-weather is observed, not forecast; 165 hours absent, partly due to service shutdowns
-(Hurricane Sandy, 29–30 Oct 2012 [15]; January 2011 snowstorm [16]). No official public
-hourly bike-sharing dataset for an Indian city was found, so results do not transfer
-directly to Indian conditions.
+While the dataset is useful for studying bike-sharing demand, it also has some limitations. First, it contains historical records from only one city, Washington D.C., and covers the period from 2011 to 2012. Therefore, the patterns found in this dataset may not represent the present-day demand of other cities.
+
+Another limitation is that the dataset contains system-wide rental counts instead of station-level information. It also provides observed weather conditions rather than future weather forecasts.
+
+There are 165 hours without records in the selected period. Some of these missing hours are related to service interruptions during Hurricane Sandy in October 2012 and a snowstorm in January 2011. These hours were not filled with estimated values.
+
+I could not find an official public hourly bike-sharing dataset for an Indian city for this project. Because of this, the results should not be directly applied to Indian cities without further testing on local data.
 
 ## 5. Data Preprocessing
 
 ### 5.1 Validation and data types
-`src/data_loader.py` checks the 17 columns, the documented value ranges, non-negative
-counts, `cnt = casual + registered` for every row, and parseable dates. The pipeline
-stops if any check fails. `dteday` is converted from text to datetime, and rows are
-sorted chronologically.
+Before training the models, I first checked whether the dataset was in the expected format. The data loader in `src/data_loader.py` verifies the column names, value ranges, rental counts, and date information.
+
+It also checks whether the total rental count is equal to the sum of casual and registered rentals for every row. The date column `dteday` is converted into datetime format, and the records are sorted from the earliest date to the latest date. If any important validation check fails, the pipeline stops instead of continuing with incorrect data.
 
 ### 5.2 Missing values
-There are no missing cell values, so no imputation was applied. This was confirmed
-programmatically (notebook 01). The 165 absent hours were **not** filled in, because
-inventing rental counts would fabricate data. User inputs in the app are validated and
-rejected if missing or out of range.
+During data inspection, I found that there were no missing cell values in the selected dataset. Therefore, there was no need to apply an imputation method.
+
+However, 165 hourly records were absent from the overall time period. I decided not to create artificial records for these missing hours because doing so would require estimating rental counts that were not present in the original data.
+
+The dashboard also includes input validation. If a user enters a missing or out-of-range value, the application does not accept that input.
 
 ### 5.3 Duplicates
-No duplicate rows (ignoring the row index) and no duplicate timestamps.
+I checked the dataset for duplicate rows and repeated timestamps. No duplicate rows or duplicate timestamps were found. This means that the same hourly record was not repeated in the dataset.
 
 ### 5.4 Outliers
-The IQR rule (Q1 = 40, Q3 = 281, upper fence 642.5) flags 505 hours (2.91%). These are
-genuine commute-peak hours that passed all range checks. They were **kept**, and MAE is
-reported alongside RMSE.
+I used the Interquartile Range (IQR) method to identify unusually high rental counts. This method flagged 505 hours, which represents approximately 2.91% of the dataset.
+
+After checking these records, I decided to keep them. Many of these high values represent genuine periods of heavy bicycle usage, especially during commuting hours. Removing them could have caused the models to miss important demand patterns. For this reason, I retained these observations and used both MAE and RMSE to evaluate prediction errors.
 
 ### 5.5 Encoding and scaling
-Implemented with `ColumnTransformer` inside scikit-learn `Pipeline`s
-(`src/preprocessing.py`):
-- **Linear, KNN, SVM, Logistic Regression, Naive Bayes:** `StandardScaler` on temp, hum,
-  windspeed; `OneHotEncoder` on season, mnth, hr, weekday, weathersit, hr_workingday;
-  binary features passed through.
-- **Polynomial / regularised regression:** polynomial expansion (degree 2–3) of the
-  scaled numeric features only, to avoid an explosion of meaningless one-hot products.
-- **Decision Tree, Random Forest:** raw values, no scaling (trees are scale-invariant).
+Different machine learning algorithms handle numerical and categorical data in different ways. Therefore, I used separate preprocessing steps depending on the model.
+
+For Linear Regression, KNN, SVM, Logistic Regression, and Naive Bayes, I applied `StandardScaler` to numerical weather-related features and `OneHotEncoder` to categorical features such as season, month, hour, weekday, and weather situation.
+
+For Polynomial Regression and regularised regression models, polynomial features of degree 2 and 3 were created using the scaled numerical features. I limited this expansion to numerical columns to avoid creating too many unnecessary combinations of categorical features.
+
+Decision Tree and Random Forest models were trained using the original feature values without scaling because tree-based algorithms do not depend on the scale of the input features.
+
+These preprocessing steps were implemented using `ColumnTransformer` and `Pipeline` from scikit-learn.
 
 ### 5.6 Feature engineering and selection
-Weather category 4 (3 hours) merged into 3; `hr_workingday` interaction added;
-`atemp` removed (multicollinearity); target transformation `log(cnt + 1)` evaluated for
-regression; Lasso / Elastic Net perform embedded feature selection.
+Some changes were made to the original features to make them more useful for model training.
+
+Weather category 4 contained only three observations, so it was combined with category 3. I also created the `hr_workingday` feature because the relationship between the hour and the type of day can affect bicycle demand.
+
+The `atemp` column was removed because it was highly correlated with `temp` (correlation of 0.988). Keeping both could introduce unnecessary overlap between the features.
+
+For regression, I also tested a log transformation of the target variable using `log(cnt + 1)`. Lasso and Elastic Net were used to perform regularisation, which helps control the contribution of less useful features.
 
 ### 5.7 Data splitting
 | Split | Period | Rows | % |
@@ -178,18 +174,22 @@ regression; Lasso / Elastic Net perform embedded feature selection.
 | Validation | 2012-07-01 → 2012-09-30 | 2,208 | 12.7 |
 | Test | 2012-10-01 → 2012-12-31 | 2,168 | 12.5 |
 
-Hyperparameters were tuned with `GridSearchCV` and 5-fold `TimeSeriesSplit` on the
-training period. Every fold trains on earlier hours and validates on later hours.
+Since the dataset contains records collected over time, I did not divide it randomly. Instead, I arranged the records chronologically and created three separate parts.
+
+The training data was used to train the models, the validation data was used to compare their performance and select the final models, and the test data was kept aside for the final evaluation.
+
+I used `GridSearchCV` along with five-fold `TimeSeriesSplit` for hyperparameter tuning. In this approach, each validation fold comes after its corresponding training period. This helps maintain the order of time and makes the evaluation more realistic.
 
 ### 5.8 Leakage prevention
-1. `cnt`, `casual`, `registered`, `instant` and `dteday` are excluded centrally
-   (`config/project_config.py`). An automated test checks that none of them is a feature.
-2. All scalers and encoders are fitted inside pipelines, so they are refitted inside each
-   CV fold and never see validation or test rows.
-3. Demand thresholds come from training `cnt` only: Low < 64 ≤ Medium < 198 ≤ High.
-4. Models were selected on validation. The test period was evaluated once, and the
-   selection was not changed afterwards.
-5. Engineered features use only values from the same row.
+Data leakage can make a machine learning model appear more accurate than it actually is. To avoid this problem, I followed these steps:
+
+1. The columns `cnt`, `casual`, `registered`, `instant`, and `dteday` were excluded from the input features. The target column and rental components were not allowed to enter the model as predictors.
+2. Scaling and encoding were performed inside scikit-learn pipelines. This ensures that preprocessing is fitted only on the training portion of each cross-validation fold.
+3. The Low, Medium, and High demand thresholds were calculated using training data only: Low < 64, Medium from 64 to below 198, and High from 198 onwards.
+4. The validation data was used for model selection. The test data was evaluated only once after the final models had been selected.
+5. The engineered features were created using information available in the same row.
+
+These steps helped keep the model evaluation separate from the information that was used during training.
 
 ## 6. Exploratory Data Analysis
 
@@ -197,62 +197,63 @@ training period. Every fold trains on earlier hours and validates on later hours
 
 ![Figure 1 – Distribution of hourly rentals](../outputs/figures/01_target_distribution.png)
 
-**Univariate.** `cnt` is right-skewed (skewness 1.28; mean 189.5 > median 142).
+The first graph shows how hourly bike rentals are distributed across the dataset. Most hours have relatively lower rental counts, while a smaller number of hours have much higher counts. This can also be seen from the mean of 189.5 being higher than the median of 142. The distribution is right-skewed, which means that high-demand hours are less common but still important for prediction.
 
 ![Figure 2 – Average rentals by hour, working day vs weekend](../outputs/figures/02_hourly_pattern_by_daytype.png)
 
-**Time of day.** Busiest hours are 17:00 (461.5), 18:00 (425.5) and 08:00 (359.0), the
-commute peaks. Working days have two peaks; weekends have one midday hump. The average
-level is similar (193.2 vs 181.4), but the shape differs, which motivated `hr_workingday`.
+This graph helped me understand how bicycle usage changes throughout the day. The highest average demand is observed at 17:00, followed by 18:00 and 08:00. These hours are closely related to normal commuting times.
+
+An interesting observation is that working days and weekends have different demand patterns. Working days show two major peaks, one in the morning and another in the evening. Weekends, on the other hand, show a more noticeable midday increase. This difference is the reason I created the `hr_workingday` feature during preprocessing.
 
 ![Figure 3 – Season and month](../outputs/figures/03_season_and_month.png)
 ![Figure 4 – Monthly trend and split boundaries](../outputs/figures/04_trend_over_time.png)
 
-**Season and trend.** Average per hour: winter 111.1, spring 208.3, summer 236.0,
-fall 198.9. 2012 averaged 234.7 vs 143.8 in 2011 (+63%). This growth justifies the
-chronological split.
+The seasonal analysis shows that bicycle rentals are not equally distributed throughout the year. Average hourly demand is highest in summer at 236.0, followed by spring at 208.3 and fall at 198.9. Winter has the lowest average demand at 111.1.
+
+The monthly trend also shows a clear increase in bike usage in 2012. The average hourly rentals increased from 143.8 in 2011 to 234.7 in 2012, which is approximately a 63% increase. This change is important because it shows that demand can also change over time. It supports the decision to use a chronological split instead of randomly dividing the dataset.
 
 ![Figure 5 – Weather and temperature](../outputs/figures/05_weather_and_temperature.png)
 
-**Weather.** Hours per weather category: 11,413 / 4,544 / 1,419 / 3. Correlations with
-cnt: temp +0.405, hum −0.323, weathersit −0.142, windspeed +0.093.
+Weather conditions also have a relationship with bicycle rentals. The dataset contains the largest number of observations under clear weather conditions, followed by the other weather categories.
+
+The correlation values show a positive relationship between temperature and rentals (0.405), while humidity has a negative relationship (-0.323). Weather situation also has a negative correlation with rentals (-0.142). Wind speed has a weak positive correlation of 0.093.
+
+These values give an initial idea of how weather may influence demand, although correlation alone does not prove that one factor causes a change in rentals.
 
 ![Figure 6 – Correlation heatmap](../outputs/figures/06_correlation_heatmap.png)
 
-**Correlation.** registered (0.972) and casual (0.695) are highly correlated with cnt, which
-confirms leakage. temp–atemp = 0.988. hr has r = 0.394 only because its effect is
-non-linear.
+The correlation heatmap helped identify relationships between different columns. The `registered` and `casual` columns have high correlations with the total rental count `cnt`, with values of 0.972 and 0.695 respectively. This is expected because both columns are used to calculate the total number of rentals.
+
+However, these columns cannot be used as input features when predicting `cnt`, because their values would reveal information about the target itself. This is why they were excluded from model training.
+
+The correlation between `temp` and `atemp` is also very high at 0.988, which supports removing `atemp` to avoid unnecessary duplication of information.
 
 ![Figure 7 – Weekday × hour](../outputs/figures/07_weekday_hour_heatmap.png)
 ![Figure 8 – Outliers](../outputs/figures/08_outliers.png)
 
-**Missing hours.** Concentrated on 2012-10-29 (23 h) and 2012-10-30 (13 h), during
-Hurricane Sandy, when Capital Bikeshare suspended service, and on 26–27 Jan 2011
-(snowstorm).
+The analysis of missing hours showed that many absent records were concentrated around 29 and 30 October 2012. During this period, Capital Bikeshare suspended its service because of Hurricane Sandy. Some missing records were also found around 26 and 27 January 2011 during a snowstorm.
 
+This observation helped explain why some hours were missing from the dataset. Instead of treating all missing hours as ordinary data errors, I considered the real-world events that affected the availability of the service.
 ## 7. Methodology
 
 ![Figure 9 – Methodology flowchart](../docs/figures/methodology_flowchart.png)
 
-1. **Load & validate** the official file (`data_loader.py`).
-2. **EDA** (`eda.py`) → documented decisions.
-3. **Feature engineering** (`feature_engineering.py`) and **chronological split**
-   (`preprocessing.py`).
-4. **Model training**: each model is a Pipeline (preprocessing + estimator), tuned with
-   GridSearchCV + TimeSeriesSplit(5) on the training period. Scoring: RMSE for
-   regression, macro F1 for classification.
-5. **Model selection** on the validation period.
-6. **Final evaluation**: tuned configurations refit on train + validation, scored once
-   on the test period.
-7. **Persistence**: the selected pipelines are saved with joblib, with metadata
-   (parameters, metrics, thresholds, package versions, seed 42).
-8. **Deployment as a prototype**: `app.py` (Streamlit) calls `predict.py`, which validates
-   inputs, converts real units to the UCI scale and applies the saved pipelines.
+The project was completed in multiple stages, starting with data collection and ending with the deployment of the trained models.
 
-**Metrics.** Regression: MAE (mean absolute error in bikes), MSE, RMSE (penalises large
-errors, same unit as cnt), R² (variance explained relative to predicting the mean).
-Classification: accuracy, macro precision, recall and F1 (each class weighted equally),
-one-vs-rest macro ROC-AUC, confusion matrix.
+1. **Data loading and validation:** The original dataset was loaded and checked for the expected columns, valid values, and correct rental counts.
+2. **Exploratory Data Analysis:** I created graphs and examined the data to understand rental patterns, weather effects, seasonal changes, and missing hours.
+3. **Feature engineering and preprocessing:** Useful features were created, unnecessary columns were removed, and the data was prepared according to the requirements of each algorithm.
+4. **Model training:** Different regression and classification algorithms were trained using scikit-learn pipelines. Hyperparameters were tuned using `GridSearchCV` and `TimeSeriesSplit`.
+5. **Model selection:** The validation results were compared to select the best-performing models for both tasks.
+6. **Final evaluation:** The selected models were refitted using the training and validation data and evaluated on the test period.
+7. **Model saving:** The final pipelines were saved using joblib along with their parameters, evaluation metrics, thresholds, package versions, and random seed.
+8. **Dashboard development:** Finally, I developed a Streamlit application. It accepts user inputs, validates them, converts real-world units into the required dataset scale, and uses the saved models to generate predictions.
+
+**Evaluation Metrics**
+
+For regression, I used MAE, MSE, RMSE, and R². MAE tells us the average absolute difference between actual and predicted rental counts. RMSE gives more importance to larger errors, while R² indicates how much variation in the target variable is explained by the model.
+
+For classification, I used accuracy, precision, recall, macro F1-score, ROC-AUC, and the confusion matrix. These metrics help evaluate how correctly the models identify Low, Medium, and High demand hours.
 
 ## 8. Model Development
 
@@ -267,8 +268,11 @@ one-vs-rest macro ROC-AUC, confusion matrix.
 | Lasso (L1) | polynomial degree 2 | alpha ∈ {0.001 … 10} | sets some coefficients to 0 |
 | Elastic Net | polynomial degree 2 | alpha ∈ {0.001 … 1}, l1_ratio ∈ {0.2, 0.5, 0.8} | L1 + L2 |
 
-Each was trained on raw `cnt` and on `log(cnt + 1)` (via `TransformedTargetRegressor`).
-Predictions are clipped at 0.
+For the regression task, I trained the models using both the original rental count (`cnt`) and its log-transformed version (`log(cnt + 1)`). This allowed me to compare whether transforming the target could improve prediction performance.
+
+I included simple and multiple linear regression to establish basic results, followed by polynomial regression to capture possible non-linear relationships. Ridge, Lasso, and Elastic Net were also tested to understand how regularisation affects model performance.
+
+For predictions, negative rental counts were clipped to zero because a negative number of rented bicycles is not possible in a real situation.
 
 ### 8.2 Classification (Task B)
 | Model | Preprocessing | Hyperparameters searched |
@@ -281,8 +285,11 @@ Predictions are clipped at 0.
 | SVM (RBF) | scaled + one-hot | C ∈ {0.1, 1, 10}; probabilities via CalibratedClassifierCV |
 | Gaussian Naive Bayes | scaled + one-hot (dense) | var_smoothing ∈ {1e-9, 1e-6, 1e-3} |
 
-The training classes are balanced by construction (tertiles), so no resampling or class
-weighting was applied. Random seed 42 throughout.
+For classification, I trained six different machine learning algorithms along with a Dummy Classifier as a baseline. The models were used to predict whether an hour belongs to the Low, Medium, or High demand category.
+
+The training data was divided into three nearly equal demand groups using thresholds calculated from the training period. Since these classes were balanced by construction, I did not apply additional resampling or class weighting.
+
+A random seed of 42 was used throughout the experiments to maintain consistency in the results.
 
 ## 9. Results and Model Comparison
 
@@ -326,26 +333,18 @@ weighting was applied. Random seed 42 throughout.
 ![Figure 15 – Largest Lasso coefficients](../outputs/figures/14_regression_top_coefficients.png)
 
 **Regression analysis.**
-- The selected model reduces test MAE by 73% (156.87 → 42.49) and RMSE by 67% compared
-  with the baseline.
-- The log target was the most effective change (polynomial: val RMSE 110.12 → 81.03),
-  consistent with the right-skewed, multiplicative nature of demand.
-- Simple Linear Regression on temperature underfits (train RMSE 146). Hour and day type,
-  not temperature alone, drive demand.
-- Lasso set 37 of 110 coefficients to exactly 0.
-- Polynomial degree curve (raw target): train/val RMSE 64.59/113.79 (degree 1),
-  63.35/110.12 (2), 60.89/108.09 (3), 60.48/107.19 (4). Only three numeric features are
-  expanded, so no clear overfitting appears up to degree 4.
-- The best regularisation strengths were the smallest values in the grids. A wider grid
-  is future work; it was not added after seeing test results.
-- Error analysis: test MAE by hour is 2.5–19 bikes at night but 105.1 at 08:00 and
-  86.4 / 88.5 at 17:00 / 18:00. The largest errors occur at commute peaks.
-- **Why R² is not used alone:** from validation to test, the selected model's RMSE fell
-  (74.4 → 67.7) but its R² also fell (0.896 → 0.887), because R² depends on the variance
-  of the period. MAE and RMSE are in bikes per hour and are directly interpretable.
-- **Model selection:** Lasso [log] was chosen on validation RMSE. On test, Ridge/Polynomial
-  [log] were 1.3 bikes better. The choice was kept to avoid tuning on the test set; the
-  top four log-target models are practically equivalent.
+
+The regression results show that using a log-transformed target improved the prediction performance considerably. Among the models selected during validation, Lasso with a log-transformed target was chosen for the final system.
+
+On the test data, this model achieved an MAE of 42.49 bikes and an RMSE of 67.72, with an R² score of 0.8872. Compared with the Dummy Regressor baseline, its MAE decreased from 156.87 to 42.49, which is approximately a 73% reduction.
+
+One observation from the experiments was that Simple Linear Regression using only temperature did not perform well. This suggests that temperature alone is not enough to explain bike rental demand. Factors such as the hour of the day and whether it is a working day also play an important role.
+
+Lasso also reduced the number of active coefficients by setting 37 out of 110 coefficients to zero. This shows how regularisation can help reduce the contribution of less useful features.
+
+The error analysis showed that predictions were more accurate during night hours, where MAE ranged from 2.5 to 19 bikes. Errors were higher during commuting hours, especially at 08:00, 17:00, and 18:00. These are also the periods with higher rental demand.
+
+It is worth mentioning that Ridge and Polynomial Regression achieved slightly better test MAE values than Lasso. However, Lasso was selected using the validation results, and I kept that selection unchanged. This was done to avoid choosing a model based on the test results. The difference between the leading log-transformed models was relatively small.
 
 ### 9.3 Classification – validation (selection)
 | Model | CV F1 | Train F1 | Accuracy | Precision | Recall | **Macro F1** | ROC-AUC |
@@ -382,24 +381,20 @@ Confusion matrix (rows actual, columns predicted; Low/Medium/High):
 ![Figure 20 – Random Forest feature importance](../outputs/figures/19_random_forest_feature_importance.png)
 
 **Classification analysis.**
-- Accuracy alone is misleading: on validation, the Dummy reaches 60.1% accuracy (it
-  always predicts High) but only 0.25 macro F1.
-- The class mix shifts (validation 60.1% High) because demand grew while the thresholds
-  stay fixed from training. Recomputing them on test data would leak information.
-- Medium is the hardest class (F1 0.67). Errors mostly fall into the neighbouring class
-  (188 Medium → High). Low↔High confusions occur in only 19 of 2,168 hours.
-- Overfitting: Random Forest and KNN reach train F1 = 1.000 but 0.874 / 0.782 on
-  validation. The Decision Tree constrained by min_samples_leaf = 20 shows a small gap.
-- Logistic Regression benefits from the one-hot hour × day-type feature. KNN suffers in
-  the ~110-dimensional one-hot space. Naive Bayes' independence assumption is violated
-  (hr and hr_workingday overlap).
-- Scaling matters for KNN: in a live experiment on the real data (notebook 04), KNN on
-   raw-unit features was compared with and without StandardScaler. Validation macro F1
-  rose from 0.6559 (unscaled) to 0.7411 (scaled).
-- Random Forest importance: hr 0.479, temp 0.126, hum 0.102, windspeed 0.064, weekday
-  0.051 … holiday 0.004. Impurity importance can overstate continuous features.
-- SVM was marginally better on test (0.8217 vs 0.8160). Logistic Regression is kept,
-  because it was selected on validation.
+
+The classification results show that Logistic Regression performed well on the validation data and was selected for the final model. On the test data, it achieved an accuracy of 0.8386 and a macro F1-score of 0.8160. Its one-vs-rest ROC-AUC score was 0.9461.
+
+The results also show why accuracy should not be considered the only measure of classification performance. The Dummy Classifier achieved an accuracy of 0.4589 on the test data, but its macro F1-score was only 0.2097. Macro F1 is useful here because it gives equal importance to all three demand categories.
+
+Among the three categories, the model found Low and High demand hours easier to identify than Medium demand hours. The F1-score for Medium was 0.666, compared with 0.896 for Low and 0.886 for High. Most of the Medium-class errors occurred when the model predicted High demand instead.
+
+The confusion matrix also helps explain these mistakes. Out of 537 actual Medium-demand hours, 188 were predicted as High. However, only a small number of hours were confused directly between Low and High.
+
+I also observed that some models, such as Random Forest and KNN, achieved a training F1-score of 1.000 but performed less strongly on validation data. This is a sign that they may have overfitted the training data.
+
+The scaling experiment with KNN showed that preprocessing made a noticeable difference. Validation macro F1 increased from 0.6559 without scaling to 0.7411 after applying StandardScaler.
+
+Although SVM achieved a slightly higher macro F1-score than Logistic Regression on the test data, Logistic Regression was retained because it had been selected using validation performance. The final model selection was not changed after examining the test results.
 
 ### 9.5 Dashboard
 ![Figure 21 – Dashboard overview](../docs/screenshots/overview.png)
@@ -410,43 +405,49 @@ Example (regression form): Wednesday, June, 17:00, 2012 level, clear weather, 25
 55% humidity → predicted 788 bikes (High). The historical average for the same hour and
 day type in 2012 is 656.
 
-### 9.6 Testing
-30 automated pytest tests pass. They cover dataset schema validation, leakage exclusion,
-chronological split boundaries, feature engineering, input validation (out-of-range and
-wrong-type inputs rejected), unit conversion, saved-model loading and predictions.
 
+### 9.6 Testing
+I also tested the project to check whether its important components were working correctly. A total of 30 automated tests were executed successfully using pytest.
+
+These tests cover different parts of the system, including dataset structure, data leakage prevention, chronological data splitting, feature engineering, user input validation, unit conversion, saved-model loading, and prediction generation.
+
+The tests also check whether incorrect data types and values outside the accepted ranges are rejected. This helped verify that the application was not only producing predictions but was also handling inputs properly.
 ## 10. Conclusion and Limitations
 
 ### 10.1 Findings
-Hourly bike demand is driven mainly by hour of day and its interaction with day type,
-followed by temperature, humidity, season and the system's growth. A regularised linear
-model on a log-transformed target, with one-hot calendar features, predicts hourly demand
-with a test MAE of 42.5 bikes (R² 0.887). A regularised Logistic Regression classifies
-demand levels with macro F1 0.816. Both clearly outperform the baselines. A careful
-evaluation design (chronological split, time-series CV, training-only thresholds, a
-single test evaluation) was essential for honest results.
+The main aim of this project was to understand and predict hourly bike-sharing demand using machine learning. During the analysis, I found that the hour of the day and the type of day have a strong relationship with bicycle rentals. Temperature, humidity, season, and the growth in usage over time also affect demand.
 
+For the regression task, Lasso with a log-transformed target achieved an MAE of 42.49 and an R² score of 0.8872 on the test data. For the classification task, Logistic Regression achieved a macro F1-score of 0.8160.
+
+Both selected models performed better than their respective baseline models. The experiments also showed the importance of using the correct preprocessing steps and evaluating the models in chronological order.
+
+One important learning from this project was that getting a good model score is not the only goal. It is equally important to prepare the data correctly, avoid leakage, compare different models fairly, and evaluate the final model on data that was not used during training or model selection.
 ### 10.2 Practical relevance
-The dashboard lets a planner explore expected demand for chosen conditions and see the
-daily demand profile. It serves as a decision-support prototype for fleet and
-redistribution planning.
+The Streamlit dashboard makes the project easier to use because a person does not need to write code or run the model manually to generate a prediction. By entering different time and weather conditions, users can explore how the expected bike demand changes.
+
+Such predictions can support planning activities like estimating bicycle requirements, arranging redistribution, and understanding periods of high demand. The current dashboard is a prototype and would need updated local data and further testing before being used in an actual bike-sharing operation.
 
 ### 10.3 Limitations
-- Historical, single-city data (Washington D.C., 2011–2012); not directly transferable to
-  other cities or to the present.
-- Observed weather is used instead of forecasts.
-- The year feature only covers 2011/2012, so growth cannot be extrapolated.
-- Classification thresholds are fixed, while demand levels shift over time.
-- The test period covers a single season and includes the Hurricane Sandy shutdown.
-- Point predictions only; no prediction intervals.
-- System-wide demand only.
+Although the project produced useful results, there are some limitations that should be considered:
+
+- The dataset contains historical records from Washington D.C. for 2011–2012, so the results may not represent present-day demand or the conditions of other cities.
+- The project uses observed weather information rather than actual weather forecasts.
+- The year feature covers only 2011 and 2012, which limits the model's ability to estimate long-term changes in demand.
+- The classification thresholds are based on the training data and remain fixed, even when the demand distribution changes over time.
+- The test period covers October to December 2012 and includes the service interruption caused by Hurricane Sandy.
+- The models provide point predictions and do not currently provide prediction intervals.
+- The project predicts system-wide demand rather than demand for individual bike-sharing stations.
 
 ### 10.4 Future improvements
-Retrain on official Indian city data with local features (monsoon, festivals); live
-integration with an operator station feed (e.g. GBFS) and a weather-forecast API with
-scheduled retraining; gradient-boosting regressors; wider regularisation grids;
-prediction intervals; permutation importance; ordinal classification; station-level
-forecasting.
+There are several ways in which this project can be improved in the future.
+
+One possible improvement is to use more recent bike-sharing data from Indian cities. This would make it possible to study local conditions such as monsoon seasons, festivals, holidays, and city-specific travel patterns.
+
+The system could also be connected to live station information through an operator feed such as GBFS and to a weather forecasting API. This would make the predictions more useful for real-time planning.
+
+Other possible improvements include experimenting with gradient-boosting regression models, testing a wider range of regularisation values, and adding prediction intervals to show the possible range of demand.
+
+Further work could also include permutation-based feature importance, ordinal classification, and station-level demand forecasting. These improvements could make the system more informative and useful for practical bike-sharing operations.
 
 ## 11. References
 1. Fanaee-T, H. (2013). *Bike Sharing* [Dataset]. UCI Machine Learning Repository. https://doi.org/10.24432/C5W894
@@ -471,11 +472,9 @@ forecasting.
 
 | Item | Value |
 |---|---|
-| GitHub repository | [https://github.com/Ayushi1-p/smart-urban-bike-demand] |
+| GitHub repository | https://github.com/Ayushi1-p/smart-urban-bike-demand |
+| Live demo | https://smart-urban-bike-demand-ayushi.streamlit.app/ |
 | LinkedIn post | https://lnkd.in/p/g7SqZ_Xw |
-| Number of commits / pull requests | [from GitHub, on the submission date] |
-| Stars / LinkedIn likes / comments | [values on the submission date] |
-
 
 **Development timeline** (from the Git commit history):
 
@@ -487,5 +486,6 @@ forecasting.
 | 30 Oct 2026 | Four notebooks (Units I–IV) run on real data; methodology flowchart; project report; LinkedIn draft | 9 |
 | 5 Nov 2026 | Report title page; documentation | 2 |
 | 6 Nov 2026 | Documentation consolidated into README and report | see repository |
+| 11 Nov 2026 | Pinned library versions; deployed the dashboard on Streamlit Community Cloud; added live demo link | see repository |
 
 Commit timestamps in the repository are the authoritative record.
