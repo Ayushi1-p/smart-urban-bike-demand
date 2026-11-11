@@ -111,6 +111,7 @@ src/regression.py      7 regression models
 src/classification.py  7 classification models
 src/evaluation.py      metric functions
 src/predict.py         checks user input and makes predictions for the app
+notebooks/             step-by-step notebooks for Units I–IV
 tests/                 automated tests
 outputs/               graphs and result tables
 models/                saved model details
