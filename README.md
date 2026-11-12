@@ -119,25 +119,14 @@ report/                project report
 docs/                  flowchart and dashboard screenshots
 ```
 
-## 7. Development timeline
-| Date | What was done |
-|---|---|
-| 25 Oct 2026 | Installed Python, VS Code and Git; created the virtual environment and folders |
-| 28 Oct 2026 | Downloaded the UCI data; wrote the config and data loader; verified 17,379 rows; first push to GitHub |
-| 29 Oct 2026 | EDA graphs; preprocessing and 7 regression models; 7 classification models; dashboard; README |
-| 30 Oct 2026 | methodology flowchart; project report |
-| 5 Nov 2026 | Report title page |
-| 6 Nov 2026 | Simplified the documentation into this README and the report |
-| 11 Nov 2026 | Pinned library versions, deployed the dashboard on Streamlit Community Cloud, added submission evidence |
 
-
-## 8. Limitations and future work
+## 7. Limitations and future work
 - Data is from one city (Washington D.C.) and is from 2011–2012, so the model does not
   directly apply to Indian cities or to today. No official hourly Indian bike-sharing
   data was found. The same code could be retrained on such data later.
 - Uses the actual weather of the hour. Real use would need weather forecasts.
 - No live data connection; future work could add live station and weather APIs.
 
-## 9. Citation
+## 8. Citation
 Fanaee-T, H. (2013). *Bike Sharing* [Dataset]. UCI Machine Learning Repository. https://doi.org/10.24432/C5W894
 Fanaee-T, H., & Gama, J. (2014). Event labeling combining ensemble detectors and background knowledge. *Progress in Artificial Intelligence, 2*(2–3), 113–127.
